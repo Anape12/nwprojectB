@@ -13,7 +13,7 @@ userInfo = userInfo + ":" +loginUser.getPass();
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet"  href="${pageContext.request.contextPath}/css/style22.css">
 <title>ユーザー一覧(管理者モード)</title>
 <%= loginUser.getName() %>さん、ログイン中
 </head>

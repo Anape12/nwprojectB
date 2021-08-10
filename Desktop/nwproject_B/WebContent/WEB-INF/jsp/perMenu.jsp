@@ -8,7 +8,6 @@ User loginUser = (User) session.getAttribute("loginUser");
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 <title>メインメニュー（<%= loginUser.getName() %>）</title>
 </head>
 <body>
@@ -19,6 +18,12 @@ User loginUser = (User) session.getAttribute("loginUser");
 		<p>ようこそ<%= loginUser.getName() %>さん</p>
 		</div>
 		<div style="margin-top:50px; padding-top:10px;"></div>
+		<form action="/nwproject_B/OpenCalender" target="_blank"  method="get">
+			<p><button class="search-btn3" type="submit">スケジュール表改</button></p>
+		</form>
+		<form action="/nwproject_B/OpenShedule" target="_blank"  method="get">
+			<p><button class="search-btn3" type="submit">スケジュール表</button></p>
+		</form>		
 		<form action="/nwproject_B/UserInsert" target="_blank"  method="get">
 			<p><button class="search-btn3" type="submit">ユーザー情報新規登録</button></p>
 		</form>
@@ -31,8 +36,14 @@ User loginUser = (User) session.getAttribute("loginUser");
 		<form action="/nwproject_B/UserView" target="_blank"  method="get">
 			<p><button class="search-btn3" type="submit">ユーザー一覧参照</button></p>
 		</form>		
+		<form action="/nwproject_B/SelectApp?AppName=NC30001" target="_blank"  method="post">
+			<p><button class="search-btn3" type="submit">NC3アプリ</button></p>
+		</form>		
+		<form action="/nwproject_B/SelectApp?AppName=NC40001" target="_blank"  method="post">
+			<p><button class="search-btn3" type="submit">NC4アプリ</button></p>
+		</form>		
 	<p><button class="search-btn2" onclick="history.back()">ログアウト</button></p>
+		 <jsp:include page="footer.jsp" flush="true"/>
 	</div>
 </body>
- <jsp:include page="footer.jsp" flush="true"/>
 </html>

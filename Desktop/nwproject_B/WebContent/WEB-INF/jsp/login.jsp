@@ -4,17 +4,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style11.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/Login.js"></script>
 <title>SampleMenu</title>
 </head>
 <body>
-	<h1>この画面はサンプルです</h1>
-	<form action="/nwproject_B/Login" method="post">
+	<h1  style="text-align:center;">この画面はサンプルです</h1>
+	<form action="/nwproject_B/Login?Params=a0005" method="post" style="text-align:center;">
 	ユーザーID：<input type="text" name="userId"><br>
 	パスワード：<input type="password" name="password" id="pass" maxlength='5' onblur="textCheck(this)"><br>
 	<input type="submit" value="ログイン" onclick="buttonClick();">
 	</form>
 </body>
+<div  style="text-align:center;">
  <jsp:include page="footer.jsp" flush="true"/>
+ </div>
 </html>

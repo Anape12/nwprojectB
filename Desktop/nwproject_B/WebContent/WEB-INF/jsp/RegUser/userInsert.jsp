@@ -10,7 +10,7 @@ User loginUser = (User) session.getAttribute("loginUser");
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
-<title>日記ページ</title>
+<title><%= loginUser.getName() %>さん　ログイン中</title>
 </head>
 <body style="background:#9ad468;">
 	<form action="/nwproject_B/UserInsert" method="post">
