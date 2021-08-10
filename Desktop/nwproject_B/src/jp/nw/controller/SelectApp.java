@@ -9,22 +9,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.crypto.Data;
 
+import jp.nw.NC4.NC30001;
+import jp.nw.NC4.NC40001;
 import jp.nw.model.UpdateLogic;
 import jp.nw.model.User;
 
 /**
  * Servlet implementation class UserUpdate
  */
-@WebServlet("/UserInsert")
-public class UserInsert extends HttpServlet {
+@WebServlet("/SelectApp")
+public class SelectApp extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserInsert() {
+    public SelectApp() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,10 +33,10 @@ public class UserInsert extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
 		
 		RequestDispatcher dispatcher = 
-				request.getRequestDispatcher("WEB-INF/jsp/RegUser/userInsert.jsp");
+				request.getRequestDispatcher("/html/userupd.html");
 		dispatcher.forward(request,response);
 	}
 
@@ -45,28 +46,23 @@ public class UserInsert extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
-		String userId = request.getParameter("userid");
-		String userPass = request.getParameter("userpass");
-		String year = request.getParameter("birthYear");
-		String month = request.getParameter("birthMonth");
-		String date = request.getParameter("birthDate");
-		// 生年月日を結合
-		StringBuilder sb = new StringBuilder();
-		sb.append(year);
-		sb.append("-");
-		sb.append(month);
-		sb.append("-");		
-		sb.append(date);
-		// 権限レベルをint型へ
-		String userPermis = request.getParameter("userpermis");
-		int figPermis = Integer.parseInt(userPermis);
+		// 実行アプリケーション取得
+		String appLogic = request.getQueryString();
+		String[] params = appLogic.split("=");
+		String result = "";
 		
-		User user = new User(userId,userPass,sb.toString(),figPermis);
-
+		if(params[1].equals("NC30001")) {
+			NC30001 nc30001 = new NC30001();
+			result = nc30001.initialize();
+		} else if (params[1].equals("NC40001")) {
+			NC40001 nc40001 = new NC40001();
+			result = nc40001.initialize();
+		}
 		HttpSession session = request.getSession();
-		session.setAttribute("loginUser",user);
+		session.setAttribute("resultApp", result);
+
 		RequestDispatcher dispatcher = 
-				request.getRequestDispatcher("WEB-INF/jsp/RegUser/userInsertCheck.jsp");
+				request.getRequestDispatcher("WEB-INF/jsp/appLogic/app.jsp");
 		dispatcher.forward(request, response);
 
 	}

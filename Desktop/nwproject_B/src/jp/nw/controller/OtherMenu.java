@@ -61,7 +61,6 @@ public class OtherMenu extends HttpServlet {
 		String name = request.getParameter("userInfo");
 		String getName = "";
 		String pass = "";
-		List<User> userList = new ArrayList<>();
 		User user = null;
 		try {
 			Connection con = DriverManager.getConnection(URL, USER , PASSWORD);

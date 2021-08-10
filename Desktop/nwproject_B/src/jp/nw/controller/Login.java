@@ -55,7 +55,7 @@ public class Login extends HttpServlet {
 		String name = request.getParameter("userId");
 		String pass = request.getParameter("password");
 		// ID/password取得クラス
-		User user = new User(name,pass);
+		User user = new User(name,pass);	
 		
 		// SQL情報Map
 		Map<String,Object> sqlInfo = new HashMap<String,Object>();
