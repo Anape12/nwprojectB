@@ -7,12 +7,13 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import jp.nw.parts.DBBase;
 import jp.nw.parts.DaoPart;
 
 public class DairyLogic {
-	static final String URL = "jdbc:mysql://localhost:3306/family?serverTimezone=JST";
-	static final String USER = "root";
-	static final String PASSWORD = "4062tomi";
+//	static final String URL = "jdbc:mysql://localhost:3306/family?serverTimezone=JST";
+//	static final String USER = "root";
+//	static final String PASSWORD = "4062tomi";
 	PreparedStatement ps = null;
 	Connection con = null;
 
@@ -24,7 +25,7 @@ public void execute(Dairy dairy) {
 		 String java8Disp = nowDateTime.format( java8Format );	
 		
 		try {
-			con = DriverManager.getConnection(URL, USER , PASSWORD);
+			con = DriverManager.getConnection(DBBase.Base.URL, DBBase.Base.USER , DBBase.Base.PASSWORD);
 			 StringBuilder sb = new StringBuilder();
 		        sb.append(DaoPart.SQL.INSERT);
 		        sb.append(DaoPart.SQL.SPACE);

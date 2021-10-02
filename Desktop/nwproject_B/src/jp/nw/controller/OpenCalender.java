@@ -1,10 +1,9 @@
 package jp.nw.controller;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.Enumeration;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,8 +15,8 @@ import javax.servlet.http.HttpSession;
 
 import jp.nw.model.MyCalendar;
 import jp.nw.model.MyCalendarLogic;
+import jp.nw.model.OpenCalenderLogic;
 import jp.nw.model.User;
-import jp.nw.model.UserViewLogic;
 
 
 /**
@@ -61,13 +60,20 @@ public class OpenCalender extends HttpServlet {
  					year++;
  				}
  				//年と月のクエリパラメーターが来ている場合にはその年月でカレンダーを生成する
- 					mc=logic.createMyCalendar(year,month);
+ 			   mc=logic.createMyCalendar(year,month);
+ 		 		// 対象のユーザーのスケジュールを取得
+ 		 		String date = s_year.concat("-").concat(s_month);
+ 	 			OpenCalenderLogic calender = new OpenCalenderLogic();
+ 	 			calender.getSchedule(userId,date);
+
  			}else {
  				//クエリパラメータが来ていないときは実行日時のカレンダーを生成する。
  				mc=logic.createMyCalendar();
  			}
+ 			
  			//リクエストスコープに格納
  			request.setAttribute("mc", mc);
+ 			request.setAttribute("user", userId);
  			//viewにフォワード
  			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/calender/calender.jsp");
  			rd.forward(request, response);											
@@ -81,9 +87,47 @@ public class OpenCalender extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html; charset=Shift_JIS");
 		// スケジュール月取得
-		String month = request.getQueryString();
-		request.setAttribute("month", month);
-				
+		String param = request.getQueryString();
+
+		String para[] = param.split("&");
+		int[] stat = new int[2];
+		stat[0] = Integer.parseInt(para[0]);
+		stat[1] = Integer.parseInt(para[1]);
+		
+		request.setAttribute("month", stat[0]);
+		request.setAttribute("day", stat[1]);
+		request.setAttribute("user", para[2]);
+
+		// カレンダー情報読み込み
+		OpenCalenderLogic calender = new OpenCalenderLogic();
+		Map<String, List<String>> map = calender.readCalender(para, stat);
+		List<List<String>> list = new ArrayList<List<String>>();
+		Integer q = 0;
+		for(int i=0; i < map.size() ; i++) {
+			String key = "KEY";
+			key = key.concat(q.toString());
+			list.add(map.get(key));
+			q++;
+		}
+		StringBuilder sbVal = new StringBuilder();
+		for(int j=0; j<list.size(); j++) {
+			List<String> ls = list.get(j);
+			if(sbVal == null || sbVal.toString().equals("")) {
+				sbVal.append(ls.get(1).concat("=").concat(ls.get(3)));
+				sbVal.append("&");
+			} else {
+				sbVal.append(ls.get(1).concat("=").concat(ls.get(3)));
+				sbVal.append("&");
+			}
+		}
+		// 末尾削除
+		String sendVal = sbVal.toString().replaceFirst(".$","");
+		request.setAttribute("SJVAL", sendVal);
+		String[] vallist = sendVal.split("&");
+		String[][] rest = new String[vallist.length][];
+ 		for(int i=0; i<vallist.length;i++){
+ 			rest[i] = vallist[i].split("=");
+		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/calender/schedule.jsp");
 		dispatcher.forward(request, response);
 	}

@@ -3,7 +3,9 @@ package jp.nw.controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,6 +19,7 @@ import jp.nw.model.MyCalendar;
 import jp.nw.model.MyCalendarLogic;
 import jp.nw.model.User;
 import jp.nw.model.UserViewLogic;
+import jp.nw.model.WriteSheduleLogic;
 
 
 /**
@@ -36,10 +39,10 @@ public class WriteShedule extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		try {
-			String s_year=request.getParameter("YEAR");
-			String s_month=request.getParameter("MONTH");
-			String s_day=request.getParameter("DAY");
-
+//			String s_year=request.getParameter("YEAR");
+//			String s_month=request.getParameter("MONTH");
+//			String s_day=request.getParameter("DAY");
+//
 			//viewにフォワード
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/Schedule/UserSchedule.jsp");
 			rd.forward(request, response);
@@ -51,31 +54,42 @@ public class WriteShedule extends HttpServlet {
 }
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html; charset=Shift_JIS");
-		
+		response.setContentType("UTF-8");
+		request.setCharacterEncoding("UTF-8");
 		// スケジュールの取得
 		String s_year=request.getParameter("progyear");
 		String s_month=request.getParameter("progmonth");
 		String s_day=request.getParameter("progday");
-
-		// 選択されたユーザーIDを取得
-		String userId = request.getParameter("radiobutton");
-		// ユーザー情報編集
-		UserViewLogic userview = new UserViewLogic();
-		List<User> userList = userview.editUserInfo(userId);
-		request.setAttribute("userList",userList);
 		
-		HttpSession session = request.getSession();
-		User loginUser = (User)session.getAttribute("loginUser");
+		String fromhour = request.getParameter("fromhour");
+		String fromminut = request.getParameter("fromminut");
+		String tohour = request.getParameter("tohour");
+		String tominit = request.getParameter("tominit");
 		
-		if(loginUser == null) {
-			response.sendRedirect("/nwproject_B/");
-			request.setCharacterEncoding("UTF-8");
-			request.setAttribute("errorMsg","エラー");
-		}else {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/editUserInfo.jsp");
-			dispatcher.forward(request, response);
-		}		
+		String plan = request.getParameter("plan");
+		String memo = request.getParameter("memo");
+		
+		
+		// スケジュール情報格納
+		Map<String,String> sheduleInfo = new HashMap<String,String>();
+		sheduleInfo.put("year",s_year);
+		sheduleInfo.put("month", s_month);
+		sheduleInfo.put("day", s_day);
+		sheduleInfo.put("fromhour",fromhour);
+		sheduleInfo.put("fromminit",fromminut);
+		sheduleInfo.put("tohour",tohour);
+		sheduleInfo.put("tominit",tominit);
+		sheduleInfo.put("plan",plan);
+		sheduleInfo.put("memo",memo);
+		
+		sheduleInfo.put("query", request.getQueryString());
+		
+		WriteSheduleLogic write = new WriteSheduleLogic();
+		int result = write.writeSchedule(sheduleInfo);
+		if(result == 1) {
+			// 正常終了
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/calender/calender.jsp");
+			rd.forward(request, response);			
+		}
 	}
-
 }

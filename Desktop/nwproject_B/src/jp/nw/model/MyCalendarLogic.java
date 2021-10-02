@@ -13,10 +13,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jp.nw.parts.DBBase;
+
 public class MyCalendarLogic {
-	static final String URL = "jdbc:mysql://localhost:3306/family?serverTimezone=JST";
-	static final String USER = "root";
-	static final String PASSWORD = "4062tomi";
+//	static final String URL = "jdbc:mysql://localhost:3306/family?serverTimezone=JST";
+//	static final String USER = "root";
+//	static final String PASSWORD = "4062tomi";
 
 	
 		// ユーザーID保持
@@ -40,7 +42,7 @@ public class MyCalendarLogic {
 			 // 日時情報を指定フォーマットの文字列で取得
 			 String display = format.format( dateObj );
 				// 対象のユーザーの予定を取得
-			Connection con = DriverManager.getConnection(URL, USER , PASSWORD);
+			Connection con = DriverManager.getConnection(DBBase.Base.URL, DBBase.Base.USER , DBBase.Base.PASSWORD);
 			StringBuilder sb = new StringBuilder();
 			sb.append("SELECT DATE, TIME, Contents FROM schedule_");
 			sb.append(userId);

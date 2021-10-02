@@ -8,10 +8,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.nw.parts.DBBase;
+
 public class UserViewLogic {
-	static final String URL = "jdbc:mysql://localhost:3306/family?serverTimezone=JST";
-	static final String USER = "root";
-	static final String PASSWORD = "4062tomi";
+//	static final String URL = "jdbc:mysql://localhost:3306/family?serverTimezone=JST";
+//	static final String USER = "root";
+//	static final String PASSWORD = "4062tomi";
 	
 	/**
 	 * ユーザ―情報一覧表示
@@ -19,7 +21,7 @@ public class UserViewLogic {
 	public List<User> findAll(){
 		List<User> userList = new ArrayList<>();
 		
-		try(Connection conn = DriverManager.getConnection(URL,USER,PASSWORD)){
+		try(Connection conn = DriverManager.getConnection(DBBase.Base.URL, DBBase.Base.USER , DBBase.Base.PASSWORD)){
 			String sql = "SELECT id, name,password,permission_level FROM users where 削除フラグ = '0' ORDER BY id";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			
@@ -44,7 +46,7 @@ public class UserViewLogic {
 	 * */
 	public List<User> editUserInfo(String userId){
 		List<User> userList = new ArrayList<>();
-		try(Connection conn = DriverManager.getConnection(URL,USER,PASSWORD)){
+		try(Connection conn = DriverManager.getConnection(DBBase.Base.URL, DBBase.Base.USER , DBBase.Base.PASSWORD)){
 			String sql = "SELECT name,password,permission_level FROM users where name =? ORDER BY id";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, userId);
@@ -69,7 +71,7 @@ public class UserViewLogic {
 	 * */
 	public List<User> confirUserInfo(String nowId, String userId, String userPass, String userPermission) {
 		List<User> userList = new ArrayList<>();
-		try(Connection conn = DriverManager.getConnection(URL,USER,PASSWORD)){
+		try(Connection conn = DriverManager.getConnection(DBBase.Base.URL, DBBase.Base.USER , DBBase.Base.PASSWORD)){
 			String sql = "UPDATE users Set name = ?, password = ?, permission_level = ? where name=?";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			int permission = Integer.parseInt(userPermission) ;

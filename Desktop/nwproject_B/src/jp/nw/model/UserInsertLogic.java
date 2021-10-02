@@ -8,10 +8,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.nw.parts.DBBase;
+
 public class UserInsertLogic {
-	static final String URL = "jdbc:mysql://localhost:3306/family?serverTimezone=JST";
-	static final String USER = "root";
-	static final String PASSWORD = "4062tomi";
+//	static final String URL = "jdbc:mysql://localhost:3306/family?serverTimezone=JST";
+//	static final String USER = "root";
+//	static final String PASSWORD = "4062tomi";
 	
 	/**
 	 * ユーザ―情報一覧表示
@@ -19,7 +21,7 @@ public class UserInsertLogic {
 	public boolean insertProcess(User user){
 		List<User> userList = new ArrayList<>();
 		
-		try(Connection conn = DriverManager.getConnection(URL,USER,PASSWORD)){
+		try(Connection conn = DriverManager.getConnection(DBBase.Base.URL, DBBase.Base.USER , DBBase.Base.PASSWORD)){
 			String sql = "INSERT INTO users (name,password,birthday,permission_level,削除フラグ) values (?,?,?,?,0);";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
@@ -44,7 +46,7 @@ public class UserInsertLogic {
 	 * */
 	public List<User> editUserInfo(String userId){
 		List<User> userList = new ArrayList<>();
-		try(Connection conn = DriverManager.getConnection(URL,USER,PASSWORD)){
+		try(Connection conn = DriverManager.getConnection(DBBase.Base.URL, DBBase.Base.USER , DBBase.Base.PASSWORD)){
 			String sql = "SELECT name,password,permission_level FROM users where name =? ORDER BY id";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, userId);

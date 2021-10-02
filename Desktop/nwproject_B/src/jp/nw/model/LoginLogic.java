@@ -10,12 +10,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jp.nw.parts.DBBase;
 import jp.nw.parts.DaoPart;
 
 public class LoginLogic {
-	static final String URL = "jdbc:mysql://localhost:3306/family?serverTimezone=JST";
-	static final String USER = "root";
-	static final String PASSWORD = "4062tomi";
+//	static final String URL = "jdbc:mysql://localhost:3306/family?serverTimezone=JST";
+//	static final String USER = "root";
+//	static final String PASSWORD = "4062tomi";
 	Map<String,Object> param = new HashMap<>();
 	//SELECT情報抽出
 	List<String> selectInfo = new ArrayList<String>();
@@ -25,7 +26,7 @@ public class LoginLogic {
 	public Map<String,Object> execute(User user, Map<String,Object> info, String table) {
 		
 		try {
-			Connection con = DriverManager.getConnection(URL, USER , PASSWORD);
+			Connection con = DriverManager.getConnection(DBBase.Base.URL, DBBase.Base.USER , DBBase.Base.PASSWORD);
 			
 			selectInfo = (List)info.get(DaoPart.KOMOKU_INFO.SELECT_INFO);
 			whereInfo = (List)info.get(DaoPart.KOMOKU_INFO.WHERE_INFO);
