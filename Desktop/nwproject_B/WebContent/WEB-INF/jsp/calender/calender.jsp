@@ -2,12 +2,13 @@
     pageEncoding="UTF-8"  import="jp.nw.model.MyCalendar"%>
 <%
 	MyCalendar mc=(MyCalendar)request.getAttribute("mc");
+	String userId = (String)request.getAttribute("user");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title><%=mc.getGengou() %>年<%=mc.getMonth() %>月カレンダー</title>
+<title><%=mc.getGengou() %>年<%=mc.getMonth() %>月カレンダー(<%=userId %>)</title>
   <link rel="stylesheet"  href="http://yui.yahooapis.com/3.18.1/build/cssreset/cssreset-min.css">
   <link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c" rel="stylesheet">
   <link rel="stylesheet"  href="${pageContext.request.contextPath}/css/style44.css">
@@ -34,7 +35,7 @@
       	<%for(String col:row) {%>
       		<%if (col.startsWith("*")){ %>
       			<td class="day"><%=col.substring(1)%>
-      			<form action="/nwproject_B/OpenCalender?<%=mc.getMonth() %>" method="post">
+      			<form action="/nwproject_B/OpenCalender?<%=mc.getMonth() %>&<%=col %>&<%=userId %>" method="post">
       			<button type="submit">📝</button>
       			</form>
       			<!-- 試験追加 -->
@@ -42,7 +43,7 @@
       			</td>
       		<%}else{ %>
       			<td><%=col %>
-      			<form action="/nwproject_B/OpenCalender?<%=mc.getMonth() %>" method="post">
+      			<form action="/nwproject_B/OpenCalender?<%=mc.getMonth() %>&<%=col %>&<%=userId %>" method="post">
       			<button type="submit">📝</button>
 				</form>
       			</td>

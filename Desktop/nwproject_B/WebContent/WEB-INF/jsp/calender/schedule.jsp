@@ -1,10 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"  import="jp.nw.model.MyCalendar, java.util.Date, java.util.Calendar"%>
+    pageEncoding="UTF-8"  import="jp.nw.model.MyCalendar, java.util.Date, java.util.Calendar, java.util.List, java.util.Map, java.util.HashMap,java.util.ArrayList"%>
 <%
-	String month =(String)request.getAttribute("month");
+	int month =(int)request.getAttribute("month");
+    int day = (int)request.getAttribute("day");
+    String userId = (String)request.getAttribute("user");
 	Date date = new Date();
 	Calendar calendar = Calendar.getInstance();
 	calendar.setTime(date);
+	String val = (String)request.getAttribute("SJVAL");
+	String[] vallist = val.split("&");
+	String[][] rest = new String[vallist.length][];
+	for(int i=0; i<vallist.length;i++){
+		rest[i] = vallist[i].split("=");
+	}
 %>
 <!DOCTYPE html>
 <html lang="ja">
@@ -33,62 +41,207 @@ p{font-size:0.75em;}
 </style>
 </head>
 <body>
-<form action="/nwproject_B/WriteShedule" method="post">
+<form action="/nwproject_B/WriteShedule?<%=userId %>" method="post">
 
 <p>スケジュール登録</p>
 <div id="contents">
 <div id="left">
 <table class="sche">
 <tr><td class="top" style="width:80px">時刻</td><td class="top" style="width:300px">予定</td></tr>
+
+<%for(int i=0; i<rest.length;i++){ %>
+<%if(rest[i][0].equals("0000")){ %>
+<tr><td class="time">00:00</td><td class="contents"><%=rest[i][1] %></td></tr>
+<tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%}else{ %>
 <tr><td class="time">00:00</td><td class="contents"></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<% } %>
+
+<%if(rest[i][0].equals("0100")){ %>
+<tr><td class="time">01:00</td><td class="contents"><%=rest[i][1] %></td></tr>
+<tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%}else{ %>
 <tr><td class="time">01:00</td><td class="contents"></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<% } %>
+
+<%if(rest[i][0].equals("0200")){ %>
+<tr><td class="time">02:00</td><td class="contents"><%=rest[i][1] %></td></tr>
+<tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%}else{ %>
 <tr><td class="time">02:00</td><td class="contents"></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<% } %>
+
+<%if(rest[i][0].equals("0300")){ %>
+<tr><td class="time">03:00</td><td class="contents"><%=rest[i][1] %></td></tr>
+<tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%}else{ %>
 <tr><td class="time">03:00</td><td class="contents"></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%} %>
+
+<%if(rest[i][0].equals("0400")){ %>
+<tr><td class="time">04:00</td><td class="contents"><%=rest[i][1] %></td></tr>
+<tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%}else{ %>
 <tr><td class="time">04:00</td><td class="contents"></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%} %>
+
+<%if(rest[i][0].equals("0500")){ %>
+<tr><td class="time">05:00</td><td class="contents"><%=rest[i][1] %></td></tr>
+<tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%}else{ %>
 <tr><td class="time">05:00</td><td class="contents"></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%} %>
+
+<%if(rest[i][0].equals("0600")){ %>
+<tr><td class="time">06:00</td><td class="contents"><%=rest[i][1] %></td></tr>
+<tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%}else{ %>
 <tr><td class="time">06:00</td><td class="contents"></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%} %>
+
+<%if(rest[i][0].equals("0700")){ %>
+<tr><td class="time">07:00</td><td class="contents"><%=rest[i][1]%></td></tr>
+<tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%}else{ %>
 <tr><td class="time">07:00</td><td class="contents"></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
-<tr><td class="time">08:00</td></tr>
+<%} %>
+
+<%if(rest[i][0].equals("0800")){ %>
+<tr><td class="time">08:00</td><td class="contents"><%=rest[i][1] %></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%}else{ %>
+<tr><td class="time">08:00</td><td class="contents"></td></tr>
+<tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%} %>
+
+<%if(rest[i][0].equals("0900")){ %>
+<tr><td class="time">09:00</td><td class="contents"><%=rest[i][1] %></td></tr>
+<tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%}else{ %>
 <tr><td class="time">09:00</td><td class="contents"></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%} %>
+
+<%if(rest[i][0].equals("1000")){ %>
+<tr><td class="time">10:00</td><td class="contents"><%=rest[i][1] %></td></tr>
+<tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%}else{ %>
 <tr><td class="time">10:00</td><td class="contents"></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%} %>
+
+<%if(rest[i][0].equals("1100")){ %>
+<tr><td class="time">11:00</td><td class="contents"><%=rest[i][1] %></td></tr>
+<tr><td class="timeb"></td><td class="contentsb">key</td></tr>
+<%}else{ %>
 <tr><td class="time">11:00</td><td class="contents"></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%} %>
+
+<%if(rest[i][0].equals("1200")){ %>
+<tr><td class="time">12:00</td><td class="contents"><%=rest[i][1] %></td></tr>
+<tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%}else{ %>
 <tr><td class="time">12:00</td><td class="contents"></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%} %>
+
+<%if(rest[i][0].equals("1300")){ %>
+<tr><td class="time">13:00</td><td class="contents"><%=rest[i][1] %></td></tr>
+<tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%}else{ %>
 <tr><td class="time">13:00</td><td class="contents"></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%} %>
+
+<%if(rest[i][0].equals("1400")){ %>
+<tr><td class="time">14:00</td><td class="contents"><%=rest[i][1] %></td></tr>
+<tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%}else{ %>
 <tr><td class="time">14:00</td><td class="contents"></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%} %>
+
+<%if(rest[i][0].equals("1500")){ %>
+<tr><td class="time">15:00</td><td class="contents"><%=rest[i][1] %></td></tr>
+<tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%}else{ %>
 <tr><td class="time">15:00</td><td class="contents"></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%} %>
+
+<%if(rest[i][0].equals("1600")){ %>
+<tr><td class="time">16:00</td><td class="contents"><%=rest[i][1] %></td></tr>
+<tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%}else{ %>
 <tr><td class="time">16:00</td><td class="contents"></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%} %>
+
+<%if(rest[i][0].equals("1700")){ %>
+<tr><td class="time">17:00</td><td class="contents"><%=rest[i][1] %></td></tr>
+<tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%}else{ %>
 <tr><td class="time">17:00</td><td class="contents"></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%} %>
+
+<%if(rest[i][0].equals("1800")){ %>
+<tr><td class="time">18:00</td><td class="contents"><%=rest[i][1] %></td></tr>
+<tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%}else{ %>
 <tr><td class="time">18:00</td><td class="contents"></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%} %>
+
+<%if(rest[i][0].equals("1900")){ %>
+<tr><td class="time">19:00</td><td class="contents"><%=rest[i][1]%></td></tr>
+<tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%}else{ %>
 <tr><td class="time">19:00</td><td class="contents"></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%} %>
+
+<%if(rest[i][0].equals("2000")){ %>
+<tr><td class="time">20:00</td><td class="contents"><%=rest[i][1] %></td></tr>
+<tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%}else{ %>
 <tr><td class="time">20:00</td><td class="contents"></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%} %>
+
+<%if(rest[i][0].equals("2100")){ %>
+<tr><td class="time">21:00</td><td class="contents"><%=rest[i][1] %></td></tr>
+<tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%}else{ %>
 <tr><td class="time">21:00</td><td class="contents"></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%} %>
+
+<%if(rest[i][0].equals("2200")){ %>
+<tr><td class="time">22:00</td><td class="contents"><%=rest[i][1] %></td></tr>
+<tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%}else{ %>
 <tr><td class="time">22:00</td><td class="contents"></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%} %>
+
+<%if(rest[i][0].equals("2300")){ %>
+<tr><td class="time">23:00</td><td class="contents"><%=rest[i][1] %></td></tr>
+<tr><td class="timeb"></td><td class="contentsb"></td></tr>
+<%}else{ %>
 <tr><td class="time">23:00</td><td class="contents"></td></tr>
 <tr><td class="timeb"></td><td class="contentsb"></td></tr>
-
+<%} %>
+<%} %>
 </table>
 
 </div>
@@ -106,42 +259,48 @@ p{font-size:0.75em;}
 </select>
 <select name="progmonth">
 <%for(int i=1; i<13; i++){ %>
+<% if(month == i){ %>
 <option value=<%=i %> selected><%=i %>
+<%}else{ %>
+<option value=<%=i %>><%=i %>
+<%} %>
 <%} %>
 </select>
 <select name="progday">
 <%for(int i=1; i<32; i++){ %>
-<option value=<%=i  %>>
-<%=i  %>
+<% if(day == i) { %>
+<option value=<%=i  %> selected><%=i  %>
+<%}else{ %>
+<option value=<%=i  %>><%=i  %>
+<%} %>
 <%} %>
 </select>
 </td></tr>
 <tr><td nowrap>時刻</td><td>
-<select name="SHOUR">
+<select name="fromhour">
 <option value="" selected>--
 <%for(int i=0; i<24; i++){ %>
 <option value=<%=i  %>>
 <%=i  %>
 <%} %>
 </select>
-<select name="SMINUTE">
+<select name="fromminut">
 <option value="" selected>--
-<option value="0">00
+<option value="00">00
 <option value="15">15
 <option value="30">30
 <option value="45">45
 </select>
 ～
-<select name="EHOUR">
+<select name="tohour">
 <option value="" selected>--
 <%for(int i=0; i<24; i++){ %>
-<option value=<%=i  %>>
-<%=i  %>
+<option value=<%=i  %>><%=i  %>
 <%} %>
 </select>
-<select name="EMINUTE">
+<select name="tominit">
 <option value="" selected>--
-<option value="0">00
+<option value="00">00
 <option value="15">15
 <option value="30">30
 <option value="45">45
@@ -150,13 +309,13 @@ p{font-size:0.75em;}
 
 <tr>
 <td nowrap>予定</td>
-<td><input type="text" name="PLAN" value="" size="30" maxlength="100">
+<td><input type="text" name="plan" value="" size="30" maxlength="100">
 </td>
 </tr>
 
 <tr>
 <td valign="top" nowrap>メモ</td>
-<td><textarea name="MEMO" cols="30" rows="10" wrap="virtual"></textarea></td>
+<td><textarea name="memo" cols="30" rows="10" wrap="virtual"></textarea></td>
 </tr>
 </table>
 <p>
