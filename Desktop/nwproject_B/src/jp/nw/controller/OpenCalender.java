@@ -91,6 +91,10 @@ public class OpenCalender extends HttpServlet {
 
 		String para[] = param.split("&");
 		int[] stat = new int[2];
+		// 当日日付対応
+		if(para[1].contains("*")) {
+			para[1] = para[1].replace("*", "");
+		}
 		stat[0] = Integer.parseInt(para[0]);
 		stat[1] = Integer.parseInt(para[1]);
 		
