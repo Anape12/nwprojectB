@@ -88,7 +88,7 @@ public class WriteShedule extends HttpServlet {
 		int result = write.writeSchedule(sheduleInfo);
 		if(result == 1) {
 			// 正常終了
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/calender/calender.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/Schedule/result.jsp");
 			rd.forward(request, response);			
 		}
 	}

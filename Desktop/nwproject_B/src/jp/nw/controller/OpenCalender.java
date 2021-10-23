@@ -132,6 +132,7 @@ public class OpenCalender extends HttpServlet {
  		for(int i=0; i<vallist.length;i++){
  			rest[i] = vallist[i].split("=");
 		}
+ 		request.setAttribute("SCH",rest);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/calender/schedule.jsp");
 		dispatcher.forward(request, response);
 	}
