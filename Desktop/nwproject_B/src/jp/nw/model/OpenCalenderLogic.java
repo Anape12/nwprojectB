@@ -41,6 +41,7 @@ public class OpenCalenderLogic {
 			sb.append("a001_schedule_");
 			sb.append(param[2]);
 			sb.append(" WHERE DATE like ?");
+			sb.append(" order by FROMTIME");
 			
 			PreparedStatement ps = con.prepareStatement(sb.toString());
 			ps.setString(1, year.concat("-").concat(param[0]).concat("-").concat(day).concat("%"));
