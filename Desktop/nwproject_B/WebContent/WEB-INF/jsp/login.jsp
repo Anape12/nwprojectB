@@ -9,7 +9,7 @@
 <title>SampleMenu</title>
 </head>
 <body>
-	<h1  style="text-align:center;">この画面はサンプルです</h1>
+	<h1  style="text-align:center;">開発機テスト画面</h1>
 	<form action="/nwproject_B/Login?Params=a0005" method="post" style="text-align:center;">
 	ユーザーID：<input type="text" name="userId"><br>
 	パスワード：<input type="password" name="password" id="pass" maxlength='5' onblur="textCheck(this)"><br>

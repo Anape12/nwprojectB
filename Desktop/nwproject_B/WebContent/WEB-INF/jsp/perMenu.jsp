@@ -18,6 +18,9 @@ User loginUser = (User) session.getAttribute("loginUser");
 		<p>ようこそ<%= loginUser.getName() %>さん</p>
 		</div>
 		<div style="margin-top:50px; padding-top:10px;"></div>
+		<form action="/nwproject_B/WorkManagement" target="_blank"  method="get">
+			<p><button class="search-btn3" type="submit">勤怠表入力</button></p>
+		</form>
 		<form action="/nwproject_B/OpenCalender" target="_blank"  method="get">
 			<p><button class="search-btn3" type="submit">スケジュール表改</button></p>
 		</form>
