@@ -24,17 +24,9 @@ import jp.nw.model.User;
  */
 @WebServlet("/OpenCalender")
 public class OpenCalender extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-    
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-//    public UserView() {
-//        super();
-//        // TODO Auto-generated constructor stub
-//    }
 
-	
+	private static final long serialVersionUID = 1L;
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		try {
@@ -70,20 +62,20 @@ public class OpenCalender extends HttpServlet {
  				//クエリパラメータが来ていないときは実行日時のカレンダーを生成する。
  				mc=logic.createMyCalendar();
  			}
- 			
+
  			//リクエストスコープに格納
  			request.setAttribute("mc", mc);
  			request.setAttribute("user", userId);
  			//viewにフォワード
  			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/calender/calender.jsp");
- 			rd.forward(request, response);											
+ 			rd.forward(request, response);
 		} catch (Exception e) {
 		// TODO 自動生成された catch ブロック
 		e.printStackTrace();
 	}
 
 }
-    
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html; charset=Shift_JIS");
 		// スケジュール月取得
@@ -97,7 +89,7 @@ public class OpenCalender extends HttpServlet {
 		}
 		stat[0] = Integer.parseInt(para[0]);
 		stat[1] = Integer.parseInt(para[1]);
-		
+
 		request.setAttribute("month", stat[0]);
 		request.setAttribute("day", stat[1]);
 		request.setAttribute("user", para[2]);

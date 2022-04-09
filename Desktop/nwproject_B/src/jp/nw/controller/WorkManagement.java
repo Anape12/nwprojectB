@@ -3,6 +3,7 @@ package jp.nw.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import jp.nw.model.MyCalendar;
-import jp.nw.model.MyCalendarLogic;
 import jp.nw.model.OpenCalenderLogic;
 import jp.nw.model.User;
 import jp.nw.parts.KeyParts;
@@ -27,16 +26,7 @@ import jp.nw.parts.KeyParts;
 @WebServlet("/WorkManagement")
 public class WorkManagement extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-//    public UserView() {
-//        super();
-//        // TODO Auto-generated constructor stub
-//    }
 
-	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		try {
@@ -54,19 +44,24 @@ public class WorkManagement extends HttpServlet {
 				month = 1;
 			}
 			request.setAttribute(KeyParts.GET_KEY.GET_MONTH,month);
-			
-			int week = cal.get(Calendar.DAY_OF_WEEK);
+
+			Calendar today = Calendar.getInstance();
+			Calendar firstDay = Calendar.getInstance();
+			firstDay.set( Calendar.DATE, 1 );
+			int firstDate = firstDay.get( Calendar.DAY_OF_WEEK );
+			request.setAttribute(KeyParts.GET_KEY.GET_WEEK, getWeek());
+			request.setAttribute(KeyParts.GET_KEY.FIRST_DATE, firstDate);
 
  			//viewにフォワード
  			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/WorkManagement/workmanegiment.jsp");
- 			rd.forward(request, response);											
+ 			rd.forward(request, response);
 		} catch (Exception e) {
 		// TODO 自動生成された catch ブロック
 		e.printStackTrace();
 	}
 
 }
-    
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html; charset=Shift_JIS");
 		// スケジュール月取得
@@ -80,7 +75,7 @@ public class WorkManagement extends HttpServlet {
 		}
 		stat[0] = Integer.parseInt(para[0]);
 		stat[1] = Integer.parseInt(para[1]);
-		
+
 		request.setAttribute("month", stat[0]);
 		request.setAttribute("day", stat[1]);
 		request.setAttribute("user", para[2]);
@@ -120,4 +115,17 @@ public class WorkManagement extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
+	private Map<Integer, String> getWeek(){
+
+		Map<Integer, String> week = new HashMap<Integer, String>();
+		week.put(1, "日");
+		week.put(2, "月");
+		week.put(3, "火");
+		week.put(4, "水");
+		week.put(5, "木");
+		week.put(6, "金");
+		week.put(7, "土");
+
+		return week;
+	}
 }
