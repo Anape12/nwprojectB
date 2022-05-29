@@ -6,22 +6,18 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Map;
 
+import jp.nw.base.BaseModel;
 import jp.nw.parts.DBBase;
 
-public class WriteSheduleLogic {
+public class WriteSheduleLogic extends BaseModel{
 
-//	static final String URL = "jdbc:mysql://localhost:3306/family?serverTimezone=JST";
-//	static final String USER = "root";
-//	static final String PASSWORD = "4062tomi";
-
-	
 	public int writeSchedule(Map<String, String> info) {
-		
+
 		try {
 			// Connection生成
 			Connection con = DriverManager.getConnection(DBBase.Base.URL, DBBase.Base.USER , DBBase.Base.PASSWORD);
-			
-			/* スケジュールパラメータ生成*/ 
+
+			/* スケジュールパラメータ生成*/
 			// 日付
 			StringBuilder date  = new StringBuilder();
 			date.append(info.get("year"));
@@ -32,10 +28,10 @@ public class WriteSheduleLogic {
 			// From～To時刻
 			String fromTime = info.get("fromhour").concat(info.get("fromminit"));
 			String toTime = info.get("tohour").concat(info.get("tominit"));
-			
+
 			String plan = info.get("plan");
 			String memo = info.get("memo");
-			
+
 			// スケジュール設定SQL
 			StringBuilder sb = new StringBuilder();
 			sb.append("INSERT INTO ");
@@ -48,7 +44,7 @@ public class WriteSheduleLogic {
 			ps.setString(3,toTime);
 			ps.setString(4,plan);
 			ps.setString(5, memo);
-			
+
 			int num = ps.executeUpdate();
 			return num;
 		} catch (SQLException e) {

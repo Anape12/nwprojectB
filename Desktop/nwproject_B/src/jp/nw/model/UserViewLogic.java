@@ -11,22 +11,19 @@ import java.util.List;
 import jp.nw.parts.DBBase;
 
 public class UserViewLogic {
-//	static final String URL = "jdbc:mysql://localhost:3306/family?serverTimezone=JST";
-//	static final String USER = "root";
-//	static final String PASSWORD = "4062tomi";
-	
+
 	/**
 	 * ユーザ―情報一覧表示
 	 * */
 	public List<User> findAll(){
 		List<User> userList = new ArrayList<>();
-		
+
 		try(Connection conn = DriverManager.getConnection(DBBase.Base.URL, DBBase.Base.USER , DBBase.Base.PASSWORD)){
 			String sql = "SELECT id, name,password,permission_level FROM users where 削除フラグ = '0' ORDER BY id";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
-			
+
 			ResultSet rs = pStmt.executeQuery();
-			
+
 			while(rs.next()) {
 				int num = rs.getInt("id");
 				String name = rs.getString("name");
@@ -50,9 +47,9 @@ public class UserViewLogic {
 			String sql = "SELECT name,password,permission_level FROM users where name =? ORDER BY id";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, userId);
-			
+
 			ResultSet rs = ps.executeQuery();
-			
+
 			while(rs.next()) {
 				String name = rs.getString("name");
 				String pass = rs.getString("password");

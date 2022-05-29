@@ -13,24 +13,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jp.nw.base.BaseModel;
 import jp.nw.parts.DBBase;
 
-public class MyCalendarLogic {
-//	static final String URL = "jdbc:mysql://localhost:3306/family?serverTimezone=JST";
-//	static final String USER = "root";
-//	static final String PASSWORD = "4062tomi";
+public class MyCalendarLogic extends BaseModel{
 
-	
-		// ユーザーID保持
-		private String userId;
-	
 		public MyCalendarLogic(String userId) {
 			this.userId = userId;
 		}
 
 		//カレンダーインスタンスを生成するメソッド(int...は可変長引数)
 		public MyCalendar createMyCalendar(int... args) throws SQLException {
-						
+
 			//マイカレンダーインスタンス生成
 			MyCalendar  mc=new MyCalendar();
 			//現在日時でカレンダーインスタンス生成
@@ -49,6 +43,7 @@ public class MyCalendarLogic {
 			sb.append(" WHERE DATE like '");
 			sb.append(display);
 			sb.append("%'");
+
 			String sql = sb.toString();
 			PreparedStatement pStmt = con.prepareStatement(sql);
 			ResultSet rs = pStmt.executeQuery();
@@ -64,9 +59,9 @@ public class MyCalendarLogic {
 				smap.put(date,slist);
 			}
 			// 試験
-//			mc.setContents( slist.get(2));			
-			
-			
+//			mc.setContents( slist.get(2));
+
+
 			//2つの引数が来ていたら
 			if(args.length==2) {
 				//最初の引数で年を設定

@@ -1,7 +1,6 @@
 package jp.nw.controller;
 
 import java.io.IOException;
-import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,33 +10,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import jp.nw.base.BaseControler;
+import jp.nw.model.UpdateLogic;
 import jp.nw.model.User;
 
 /**
  * Servlet implementation class UserUpdate
  */
-@WebServlet("/UserInsert")
-public class UserInsert extends HttpServlet {
+@WebServlet("/UserUpdate")
+public class UserUpdate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	private BaseControler baseControler = null;
-
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserInsert() {
+    public UserUpdate() {
         super();
-        baseControler = new BaseControler();
+        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		RequestDispatcher dispatcher =
-				request.getRequestDispatcher("WEB-INF/jsp/RegUser/userInsert.jsp");
+		RequestDispatcher dispatcher = 
+				request.getRequestDispatcher("/html/userupd.html");
 		dispatcher.forward(request,response);
 	}
 
@@ -47,32 +43,19 @@ public class UserInsert extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
-
-		Map<String, Object> userMap = baseControler.getParameter(request, response);
-		System.out.println(userMap);
-
-		String userId = (String) userMap.get("userid");
-		String userPass = (String) userMap.get("userpass");
-		String year = (String) userMap.get("birthYear");
-		String month = (String) userMap.get("birthMonth");
-		String date = (String) userMap.get("birthDate");
-		// 生年月日を結合
-		StringBuilder sb = new StringBuilder();
-		sb.append(year);
-		sb.append("-");
-		sb.append(month);
-		sb.append("-");
-		sb.append(date);
-		// 権限レベルをint型へ
-		String userPermis = (String)userMap.get("userpermis");
-		int figPermis = Integer.parseInt(userPermis);
-
-		User user = new User(userId,userPass,sb.toString(),figPermis);
-
+		String name = request.getParameter("id");
+		String oldpass = request.getParameter("oldpass");
+		String newpass = request.getParameter("newpass");
+		
+		User user = new User(name,oldpass,newpass);
+		
+		UpdateLogic uplg = new UpdateLogic();
+		uplg.execute(user);
+		
 		HttpSession session = request.getSession();
 		session.setAttribute("loginUser",user);
-		RequestDispatcher dispatcher =
-				request.getRequestDispatcher("WEB-INF/jsp/RegUser/userInsertCheck.jsp");
+		RequestDispatcher dispatcher = 
+				request.getRequestDispatcher("/html/updateresult.html");
 		dispatcher.forward(request, response);
 
 	}

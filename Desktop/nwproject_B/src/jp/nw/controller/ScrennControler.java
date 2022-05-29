@@ -23,8 +23,8 @@ import jp.nw.parts.DaoPart;
 /**
  * Servlet implementation class Login
  */
-@WebServlet("/Login")
-public class Login extends HttpServlet {
+@WebServlet("/ScrennControler")
+public class ScrennControler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private BaseModel baseModel = null;
@@ -35,7 +35,7 @@ public class Login extends HttpServlet {
      *
      * HttpServlet()
      */
-    public Login() {
+    public ScrennControler() {
         super();
         baseModel = new BaseModel();
     }
