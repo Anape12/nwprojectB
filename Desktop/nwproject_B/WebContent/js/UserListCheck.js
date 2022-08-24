@@ -9,6 +9,9 @@ function checkForm(){
     }
 }
 function checkUserInfo() {
+	// FQDNの生成
+	var fqdn = location;
+	var nowId = document.form1.nowID.value;
     var userId =document.form1.editID.value;
     var userPass =document.form1.editPass.value;
     var userPerm =document.form1.editPermission.value;
@@ -17,7 +20,7 @@ function checkUserInfo() {
         type: "GET",
         // リクエスト先URL
         // Javaのサーブレットを指定する
-        url: "http://localhost:8080/nwproject_B/EditUserView?userId=" + userId + "&" + "userPass=" + userPass + "&" + "userPerm=" + userPerm,
+        url: "http://localhost:8080/nwproject_B/EditUserView?nowId=" + nowId + "&" +  "userId=" + userId + "&" + "userPass=" + userPass + "&" + "userPerm=" + userPerm,
         // サーバから返されるデータの型を指定
         // 今回はただの文字列
         dataType: "text"
@@ -27,15 +30,17 @@ function checkUserInfo() {
         // dataでout.print(ret);の値を受け取る
         function (data) {
         	if(data === "0"){
-        		event.preventDefault();
-        		event.stopPropagation();
-        		event.stopImmediatePropagation();
         		alert("値を更新してください")
         		return false;
         	}
-        	else if(data === "1") {
+//        	else if(data === "1") {
+//        		return true;
+//        	}
+        	else {
+        		alert("登録が完了しました")
         		return true;
         	}
+
         }
     );
 }
