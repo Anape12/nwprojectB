@@ -6,6 +6,10 @@ import java.util.Map;
 public class BaseAppLogic {
 
 
+	/**
+	 * @author tominagakouhei
+	 * @return Map形式で曜日を返却します()
+	 */
 	protected Map<Integer, String> getWeek(){
 
 		Map<Integer, String> week = new HashMap<Integer, String>();
