@@ -10,17 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- * Servlet implementation class UserUpdate
- */
-@WebServlet("/SelectApp")
-public class SelectApp extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+import jp.nw.model.Dairy;
+import jp.nw.model.DairyLogic;
 
+/**
+ * Servlet implementation class DairyWrite
+ */
+@WebServlet("/DairyWrite")
+public class DairyWrite extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+    
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SelectApp() {
+    public DairyWrite() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,10 +31,9 @@ public class SelectApp extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
-
-		RequestDispatcher dispatcher =
-				request.getRequestDispatcher("/html/userupd.html");
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher dispatcher = 
+				request.getRequestDispatcher("/html/dairywrite.html");
 		dispatcher.forward(request,response);
 	}
 
@@ -41,27 +43,19 @@ public class SelectApp extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
-		// 実行アプリケーション取得
-		String appLogic = request.getQueryString();
-		String[] params = appLogic.split("=");
-		String result = "";
-
-		if(params[1].equals("NC30001")) {
-//			NC30001 nc30001 = new NC30001();
-//			result = nc30001.initialize();
-			result = "NC3 Apploci";
-		} else if (params[1].equals("NC40001")) {
-//			NC40001 nc40001 = new NC40001();
-//			result = nc40001.initialize();
-			result = "NC4 Applogic";
-		}
+		String title = request.getParameter("title");
+		String text = request.getParameter("text1");
+		
+		Dairy dairy = new Dairy(title, text);
+		
+		DairyLogic dylg = new DairyLogic();
+		dylg.execute(dairy);
+		
 		HttpSession session = request.getSession();
-		session.setAttribute("resultApp", result);
-
-		RequestDispatcher dispatcher =
-				request.getRequestDispatcher("WEB-INF/jsp/appLogic/app.jsp");
+		session.setAttribute("dairy",dairy);
+		RequestDispatcher dispatcher = 
+				request.getRequestDispatcher("/html/dairyresult.html");
 		dispatcher.forward(request, response);
 
 	}
-
 }

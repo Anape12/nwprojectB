@@ -24,7 +24,6 @@ import jp.nw.model.UserViewLogic;
 @WebServlet("/EditUserView")
 public class EditUserView extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Map<String, String> postMap;
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -36,6 +35,7 @@ public class EditUserView extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		response.setContentType("text/plain;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 
@@ -50,8 +50,6 @@ public class EditUserView extends HttpServlet {
 			parameter = check.split("=");
 			map.put(parameter[0], parameter[1]);
 		}
-		// グローバルMapにユーザー情報保持
-		postMap = new HashMap<>(map);
 		// 各ユーザー情報の取得
 		String userId = map.get("userId");
 		String userpass = map.get("userPass");
@@ -62,31 +60,16 @@ public class EditUserView extends HttpServlet {
 			out.print("0");
 		} else {
 			out.print("1");
-			UserViewLogic userview = new UserViewLogic();
-			boolean checkAfter = userview.userInfoUpdate(map);
-			if(checkAfter) {
-				System.out.println("Succsess");
-				RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/Schedule/result.jsp");
-				dispatcher.forward(request, response);
-			}
-			else {
-				RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/Error.jsp");
-				dispatcher.forward(request, response);
-			}
 		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html; charset=Shift_JIS");
 		// 編集されたユーザ情報（ID,パスワード,権限レベル）を取得
-		String nowUserId = postMap.get("nowId");
-		String userId = postMap.get("userId");
-		String userPass = postMap.get("userPass");
-		String userPermission = postMap.get("userPerm");
-//		String nowUserId = request.getParameter("nowID");
-//		String userId = request.getParameter("editID");
-//		String userPass = request.getParameter("editPass");
-//		String userPermission = request.getParameter("editPermission");
+		String nowUserId = request.getParameter("nowID");
+		String userId = request.getParameter("editID");
+		String userPass = request.getParameter("editPass");
+		String userPermission = request.getParameter("editPermission");
 		// ユーザー情報編集
 		UserViewLogic userview = new UserViewLogic();
 		List<User> userList = userview.confirUserInfo(nowUserId,userId,userPass,userPermission);
