@@ -20,6 +20,7 @@ public class DaoPart {
 	public static interface KOMOKU_INFO {
 		public static final String SELECT_INFO = "SELECT_INFO";
 		public static final String WHERE_INFO = "WHERE_INFO";
+		public static final String PROCESS_INFO = "PROCESS_INFO";
 	}
 
 }

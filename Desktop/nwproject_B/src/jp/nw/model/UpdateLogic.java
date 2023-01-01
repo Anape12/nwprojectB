@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JFrame;
@@ -15,12 +16,18 @@ import jp.nw.parts.DBBase;
 import jp.nw.parts.DaoPart;
 
 public class UpdateLogic {
-//	static final String URL = "jdbc:mysql://localhost:3306/family?serverTimezone=JST";
-//	static final String USER = "root";
-//	static final String PASSWORD = "4062tomi";
 	PreparedStatement ps = null;
 	Connection con = null;
 	Map<Object,Object> param = new HashMap<>();
+
+	// SQL発行
+	private DBBase dbCon = null;
+
+	// SQLカラム名情報
+	private List<String> columnInfo = null;
+
+	// SQL設定値情報
+	private List<String> columnVal = null;
 
 	public void execute(User user) {
 
@@ -57,6 +64,12 @@ public class UpdateLogic {
 
 					con.setAutoCommit(false);
 					try {
+						// SQLカラム名
+						// SQL設定値
+						// Update処理実行
+						dbCon = new DBBase();
+						boolean resultFlg = dbCon.updateSQL(null, null, null);
+
 						int result = ps.executeUpdate();
 						System.out.println("結果" + result);
 						con.commit();

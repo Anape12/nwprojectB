@@ -3,7 +3,7 @@ package jp.nw.base;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BaseAppLogic {
+public class BaseAppLogic extends BaseModel{
 
 
 	/**

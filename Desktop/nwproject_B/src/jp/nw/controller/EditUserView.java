@@ -83,10 +83,7 @@ public class EditUserView extends HttpServlet {
 		String userId = postMap.get("userId");
 		String userPass = postMap.get("userPass");
 		String userPermission = postMap.get("userPerm");
-//		String nowUserId = request.getParameter("nowID");
-//		String userId = request.getParameter("editID");
-//		String userPass = request.getParameter("editPass");
-//		String userPermission = request.getParameter("editPermission");
+
 		// ユーザー情報編集
 		UserViewLogic userview = new UserViewLogic();
 		List<User> userList = userview.confirUserInfo(nowUserId,userId,userPass,userPermission);

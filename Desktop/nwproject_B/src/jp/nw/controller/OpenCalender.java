@@ -38,8 +38,8 @@ public class OpenCalender extends HttpServlet {
 			String s_year=request.getParameter("year");
 			String s_month=request.getParameter("month");
 			// インスタンス生成に伴い、取得するユーザーＩＤを設定
-			MyCalendarLogic logic=new MyCalendarLogic(userId);
- 			MyCalendar mc=null;
+			MyCalendarLogic logic = new MyCalendarLogic(userId);
+ 			MyCalendar mc = null;
  			if(s_year != null && s_month != null) {
  				int year =Integer.parseInt(s_year);
  				int month=Integer.parseInt(s_month);

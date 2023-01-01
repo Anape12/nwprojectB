@@ -64,9 +64,6 @@ public class Login extends HttpServlet {
 		String name = (String)loginParam.get("userId");
 		String pass = (String)loginParam.get("password");
 
-		// ID/passwordの取得
-//		String name = request.getParameter("userId");
-//		String pass = request.getParameter("password");
 		// ID/password取得クラス
 		User user = new User(name,pass);
 
@@ -92,11 +89,11 @@ public class Login extends HttpServlet {
 		// SQL実行結果を取得
 		boolean result = (boolean)isLogin.get("result");
 		// 権限レベルを取得
-		int level = (int)isLogin.get("level");
+		String level = (String) isLogin.get("permission_level");
 
 		// ログイン後の遷移先画面を選択
 		if(result) {
-			if(level == 1) {
+			if(level.equals("1")) {
 				System.out.println("ログイン成功（管理者）");
 				// ログイン成功（管理者画面）
 				HttpSession session = request.getSession();

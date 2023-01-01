@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import jp.nw.base.BaseControler;
+import jp.nw.base.BaseAppLogic;
 import jp.nw.model.User;
 
 /**
@@ -21,14 +21,14 @@ import jp.nw.model.User;
 public class UserInsert extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private BaseControler baseControler = null;
+	private BaseAppLogic baseApplogic = null;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
     public UserInsert() {
         super();
-        baseControler = new BaseControler();
+        baseApplogic = new BaseAppLogic();
     }
 
 	/**
@@ -48,7 +48,7 @@ public class UserInsert extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
 
-		Map<String, Object> userMap = baseControler.getParameter(request, response);
+		Map<String, Object> userMap = baseApplogic.getParameter(request, response);
 		System.out.println(userMap);
 
 		String userId = (String) userMap.get("userid");

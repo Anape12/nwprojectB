@@ -14,22 +14,22 @@ public class UserInsertLogic {
 //	static final String URL = "jdbc:mysql://localhost:3306/family?serverTimezone=JST";
 //	static final String USER = "root";
 //	static final String PASSWORD = "4062tomi";
-	
+
 	/**
 	 * ユーザ―情報一覧表示
 	 * */
 	public boolean insertProcess(User user){
 		List<User> userList = new ArrayList<>();
-		
+
 		try(Connection conn = DriverManager.getConnection(DBBase.Base.URL, DBBase.Base.USER , DBBase.Base.PASSWORD)){
 			String sql = "INSERT INTO users (name,password,birthday,permission_level,削除フラグ) values (?,?,?,?,0);";
 			PreparedStatement ps = conn.prepareStatement(sql);
-			
+
 			ps.setString(1,user.getName());
 			ps.setString(2,user.getPass());
 			ps.setString(3,user.getBirth());
 			ps.setInt(4,user.getPermission());
-			
+
 			int num = ps.executeUpdate();
 			if(num == 0) {
 				return false;
@@ -47,12 +47,12 @@ public class UserInsertLogic {
 	public List<User> editUserInfo(String userId){
 		List<User> userList = new ArrayList<>();
 		try(Connection conn = DriverManager.getConnection(DBBase.Base.URL, DBBase.Base.USER , DBBase.Base.PASSWORD)){
-			String sql = "SELECT name,password,permission_level FROM users where name =? ORDER BY id";
+			String sql = "SELECT name,password,permission_level where name =? ORDER BY id";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, userId);
-			
+
 			ResultSet rs = ps.executeQuery();
-			
+
 			while(rs.next()) {
 				String name = rs.getString("name");
 				String pass = rs.getString("password");

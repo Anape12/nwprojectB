@@ -35,7 +35,8 @@ public class MyCalendarLogic extends BaseModel{
 			 SimpleDateFormat format = new SimpleDateFormat( "yyyyMM" );
 			 // 日時情報を指定フォーマットの文字列で取得
 			 String display = format.format( dateObj );
-				// 対象のユーザーの予定を取得
+			 System.out.println("参照ユーザー:" + this.userId);
+			// 対象のユーザーの予定を取得
 			Connection con = DriverManager.getConnection(DBBase.Base.URL, DBBase.Base.USER , DBBase.Base.PASSWORD);
 			StringBuilder sb = new StringBuilder();
 			sb.append("SELECT DATE, TIME, Contents FROM schedule_");
@@ -45,6 +46,8 @@ public class MyCalendarLogic extends BaseModel{
 			sb.append("%'");
 
 			String sql = sb.toString();
+
+			System.out.println("実行SQL：" + sql);
 			PreparedStatement pStmt = con.prepareStatement(sql);
 			ResultSet rs = pStmt.executeQuery();
 			// 取得スケジュール格納Map
@@ -60,7 +63,6 @@ public class MyCalendarLogic extends BaseModel{
 			}
 			// 試験
 //			mc.setContents( slist.get(2));
-
 
 			//2つの引数が来ていたら
 			if(args.length==2) {

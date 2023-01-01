@@ -6,12 +6,12 @@ public class User {
 	private String name;
 	private String pass;
 	private int permission;
-		
+
 	private String oldpass;
 	private String newpass;
-	
+
 	private String birth;
-	
+
 	public User() {}
 	// LoginCheck用インスタンス
 	public User(String name , String pass) {

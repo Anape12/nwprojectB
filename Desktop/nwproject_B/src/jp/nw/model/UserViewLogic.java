@@ -1,11 +1,11 @@
 package jp.nw.model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,23 +13,46 @@ import jp.nw.parts.DBBase;
 
 public class UserViewLogic {
 
+	// SQL発行オブジェクト
+	private DBBase dbCon = null;
+
+	// 返却情報格納List
+	private List<List<String>> retList = null;
+
 	/**
 	 * ユーザ―情報一覧表示
 	 * */
 	public List<User> findAll(){
 		List<User> userList = new ArrayList<>();
 
-		try(Connection conn = DriverManager.getConnection(DBBase.Base.URL, DBBase.Base.USER , DBBase.Base.PASSWORD)){
-			String sql = "SELECT id, name,password,permission_level FROM users where 削除フラグ = '0' ORDER BY id";
-			PreparedStatement pStmt = conn.prepareStatement(sql);
+		// Connection取得
+		dbCon = new DBBase();
 
-			ResultSet rs = pStmt.executeQuery();
+		try(Connection conn = dbCon.getConnection()){
 
-			while(rs.next()) {
-				int num = rs.getInt("id");
-				String name = rs.getString("name");
-				String pass = rs.getString("password");
-				int permission = rs.getInt("permission_level");
+			// テーブル名
+			String trgTable = "users";
+			// カラム情報
+			List<String> colList = new ArrayList<String>();
+			colList.add("id");
+			colList.add("name");
+			colList.add("password");
+			colList.add("permission_level");
+			// 検索条件
+			Map<String, String> whereInfo = new HashMap<String, String>();
+			whereInfo.put("削除フラグ", "0");
+			whereInfo.put("PROCESS_INFO", "ORDER BY id");
+
+			retList = new ArrayList<List<String>>();
+
+			// 要動作チェック(DBでint型のカラムは失敗するはず)
+			retList = dbCon.simpleSelectSql(trgTable, colList, whereInfo);
+
+			for(List<String> rowInfo : retList) {
+				int num = Integer.parseInt(rowInfo.get(0));
+				String name = rowInfo.get(1);
+				String pass = rowInfo.get(2);
+				int permission = Integer.parseInt(rowInfo.get(3));
 				User mutter = new User(num, name, pass, permission);
 				userList.add(mutter);
 			}
@@ -44,7 +67,11 @@ public class UserViewLogic {
 	 * */
 	public List<User> editUserInfo(String userId){
 		List<User> userList = new ArrayList<>();
-		try(Connection conn = DriverManager.getConnection(DBBase.Base.URL, DBBase.Base.USER , DBBase.Base.PASSWORD)){
+
+		// Connection取得
+		dbCon = new DBBase();
+
+		try(Connection conn = dbCon.getConnection()){
 			String sql = "SELECT name,password,permission_level FROM users where name =? ORDER BY id";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, userId);
@@ -58,6 +85,7 @@ public class UserViewLogic {
 				User mutter = new User(name,pass,permission);
 				userList.add(mutter);
 			}
+
 		}catch(SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -69,7 +97,11 @@ public class UserViewLogic {
 	 * */
 	public List<User> confirUserInfo(String nowId, String userId, String userPass, String userPermission) {
 		List<User> userList = new ArrayList<>();
-		try(Connection conn = DriverManager.getConnection(DBBase.Base.URL, DBBase.Base.USER , DBBase.Base.PASSWORD)){
+
+		// Connection取得
+		dbCon = new DBBase();
+
+		try(Connection conn = dbCon.getConnection()){
 			// ユーザー情報編集チェック処理
 			if(!userInfoCheck(userId, userPass, userPermission)) {
 //				JFrame frame = new JFrame();
@@ -107,8 +139,11 @@ public class UserViewLogic {
 		String name = "";
 		String pass = "";
 		int permiss = 2;
+		// Connection取得
+		dbCon = new DBBase();
+
 		try {
-			Connection con = DriverManager.getConnection(DBBase.Base.URL, DBBase.Base.USER , DBBase.Base.PASSWORD);
+			Connection con = dbCon.getConnection();
 			String sql = "SELECT name, password, permission_level FROM users WHERE name = ?";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, nowId);
